@@ -1,6 +1,0 @@
-C:\Users\Brandon\Desktop\FingerprintEncryption\Git\FingerprintEncryption\bin\Debug\FingerprintEncryption.exe.config
-C:\Users\Brandon\Desktop\FingerprintEncryption\Git\FingerprintEncryption\bin\Debug\FingerprintEncryption.exe
-C:\Users\Brandon\Desktop\FingerprintEncryption\Git\FingerprintEncryption\bin\Debug\FingerprintEncryption.pdb
-C:\Users\Brandon\Desktop\FingerprintEncryption\Git\FingerprintEncryption\obj\x86\Debug\ResolveAssemblyReference.cache
-C:\Users\Brandon\Desktop\FingerprintEncryption\Git\FingerprintEncryption\obj\x86\Debug\FingerprintEncryption.exe
-C:\Users\Brandon\Desktop\FingerprintEncryption\Git\FingerprintEncryption\obj\x86\Debug\FingerprintEncryption.pdb

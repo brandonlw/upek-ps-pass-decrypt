@@ -12,7 +12,8 @@ namespace FingerprintEncryption
 
     //NOTE: This only seems to decrypt "ExData", not the other one, which is okay I guess since it has more data.
     //      It's structured in such a way that hopefully it'll work for other key lengths besides just 56.
-    //      It currently tries to decrypt any "ExData" values in either 32-bit or 64-bit registries and displays the Unicode strings within.
+    //      It currently tries to decrypt any "ExData" values in either 32-bit or 64-bit registries
+    //        and displays the Unicode strings within.
     //      I haven't figured out the format of the data yet -- not easy to traverse at first glance.
     //Forgive the awfulness that is this code file.
     static void Main(string[] args)
@@ -26,7 +27,7 @@ namespace FingerprintEncryption
       //Parse command line arguments
       foreach (var arg in args)
       {
-        var a = arg.TrimEnd(new char[] { '-', '/' });
+        var a = arg.Trim(new char[] { '-', '/' });
         if (a.Contains("v"))
           _verbose = true;
         else if (a.Contains("h"))
@@ -54,6 +55,9 @@ namespace FingerprintEncryption
       _ScanRegistryKey(@"Software\Virtual Token\Passport\4.0\LocalPassport");
       _ScanRegistryKey(@"Software\Virtual Token\Passport\4.0\DevicePassport");
       _ScanRegistryKey(@"Software\Virtual Token\Passport\4.0\VoidPassport");
+
+      Console.WriteLine();
+      Console.WriteLine("Done.");
     }
 
     private static void _ScanRegistryKey(string subKey)

@@ -274,14 +274,20 @@ namespace FingerprintEncryption
           //For types 0x05 and above, the password is encrypted separately -- get it
           if (!_verbose && type >= 0x05)
           {
-            //HACK: Not exactly sure how to parse the above data, so just look for a block with a specific size
-            var index = _FindBytes(output, new byte[] { 0xF6, 0x00, 0x00, 0x00 });
-            var passwordBlock = new byte[_GetInt(output, index.Value)];
-            Array.Copy(output, index.Value + 4, passwordBlock, 0, passwordBlock.Length);
-            var decryptedPassword = _DecryptBlock(passwordBlock);
+            //HACK: Not exactly sure how to parse the above data, so just look for a block
+            //  with a specific "signature" after "P1" Unicode string
+            var passwordIndex = _FindBytes(output, 0, new byte[] { 0x50, 0x00, 0x31, 0x00 });
+            if (passwordIndex.HasValue)
+            {
+              var index = _FindBytes(output, passwordIndex.Value,
+                new byte[] { 0x00, 0x00, 0x01, 0x00, 0x00, 0x00 });
+              var passwordBlock = new byte[_GetInt(output, index.Value - 2)];
+              Array.Copy(output, index.Value - 2 + 4, passwordBlock, 0, passwordBlock.Length);
+              var decryptedPassword = _DecryptBlock(passwordBlock);
 
-            Console.WriteLine("\t\tPassword:\t" +
-              UnicodeEncoding.Unicode.GetString(decryptedPassword).TrimEnd('\0'));
+              Console.WriteLine("\t\tPassword:\t" +
+                UnicodeEncoding.Unicode.GetString(decryptedPassword).TrimEnd('\0'));
+            }
           }
         }
         else
@@ -299,11 +305,11 @@ namespace FingerprintEncryption
         (raw[offset + 2] << 16) | (raw[offset + 3] << 24));
     }
 
-    private static int? _FindBytes(byte[] haystack, byte[] needle)
+    private static int? _FindBytes(byte[] haystack, int startingIndex, byte[] needle)
     {
       int? ret = null;
 
-      for (int i = 0; i < haystack.Length; i++)
+      for (int i = startingIndex; i < haystack.Length; i++)
       {
         bool found = true;
 
